@@ -1,29 +1,22 @@
-# This workflow warns and then closes issues and PRs that have had no activity for a specified amount of time.
-#
-# You can adjust the behavior by modifying this file.
-# For more information, see:
-# https://github.com/actions/stale
-name: Mark stale issues and pull requests
-
-on:
-  workflow_dispatch:
-  schedule:
-  - cron: '27 23 * * *'
-
 jobs:
   stale:
-
-    runs-on: ubuntu-latest
     permissions:
       issues: write
       pull-requests: write
-
+    runs-on: self-hosted
     steps:
-    - uses: actions/stale@v5
+    - continue-on-error: true
+      uses: actions/stale@v5
       with:
+        close-issue-message: "\u6B64lssue\u7531\u4E8E\u957F\u671F\u672A\u6D3B\u52A8\
+          \u5DF2\u88AB\u81EA\u52A8\u5173\u95ED\uFF0C\u5982\u95EE\u9898\u4EFB\u7136\
+          \u5B58\u5728\uFF0C\u8BF7\u91CD\u65B0\u6253\u5F00lssue"
+        close-pr-message: "\u6B64pr\u7531\u4E8E\u957F\u671F\u672A\u6D3B\u52A8\u5DF2\
+          \u88AB\u81EA\u52A8\u5173\u95ED"
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        stale-issue-label: '无活动'
-        stale-pr-label: '无活动'
-        close-issue-message: '此lssue由于长期未活动已被自动关闭，如问题任然存在，请重新打开lssue'
-        close-pr-message: '此pr由于长期未活动已被自动关闭'
-        
+        stale-issue-label: "\u65E0\u6D3B\u52A8"
+        stale-pr-label: "\u65E0\u6D3B\u52A8"
+name: Mark stale issues and pull requests
+on:
+  repository_dispatch:
+    types: trigger-ga___stale.yml
